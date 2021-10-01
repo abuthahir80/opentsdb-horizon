@@ -16,16 +16,21 @@
  */
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from '../environments/environment';
 
-const routes: Routes = [
+const routes: Routes = !environment.readonly ? [
   { path: 'd', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
   { path: 'snap', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
   { path: 'main', loadChildren: 'app/landing-page/landing-page.module#LandingPageModule' },
   { path: 'a', loadChildren: 'app/alerts/alerts.module#AlertsModule' },
   { path: 'user', loadChildren: 'app/user/user.module#UserModule' },
   { path: 'namespace', loadChildren: 'app/namespace/namespace.module#NamespaceModule' },
+  { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'},
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', redirectTo: 'main', pathMatch: 'full'}
+] : [
+  { path: 'd', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
+  { path: '**', loadChildren:'app/error/error.module#ErrorModule'}
 ];
 
 @NgModule({

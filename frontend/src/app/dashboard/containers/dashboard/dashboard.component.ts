@@ -971,6 +971,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
                       panelClass: 'success-notification'
                     });
                     break;
+                case 'set-version-success':
+                    this.snackBar.open('Dashboard default version has been changed.', '', {
+                        horizontalPosition: 'center',
+                        verticalPosition: 'top',
+                        duration: 5000,
+                        panelClass: 'success-notification'
+                        });
+                    this.refreshDashboardVersionHistory();
+                    break;
             }
         }));
 
@@ -1136,11 +1145,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         }));
 
-        this.subscription.add(this.dbHistory$.subscribe(data => {
+        this.subscription.add(this.dbHistory$.subscribe(res => {
             this.interCom.responsePut({
                 action: 'SetDashboardHistory',
                 payload: {
-                    data: data
+                    data: res.data,
+                    error: res.error
                 }
             });
         }));
@@ -1800,6 +1810,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new UpdateDashboardAutoRefresh(refresh));
     }
 
+    refreshDashboardVersionHistory() {
+        this.interCom.responsePut({
+            action: 'RefreshDashboardHistory',
+            payload: {}
+        });
+    }
+
     setTimezone(e: any) {
         // we change the local dbTime when zooming, so update the zone of local var
         if ( this.isDBZoomed ) {
@@ -1903,7 +1920,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     doesUserHaveWriteAccess() {
-        return true;
         const user = this.store.selectSnapshot(DbfsState.getUser());
         const createdBy = this.store.selectSnapshot(DBState.getCreator);
         if ( !this.snapshot ) {

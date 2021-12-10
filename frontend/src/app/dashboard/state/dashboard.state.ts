@@ -479,7 +479,7 @@ export class DBState {
                 console.log("loadDashboardHisotry", res.body);
                 const state = ctx.getState();
                 ctx.patchState({
-                    history: res.body
+                    history: { data: res.body }
                 });
             }),
             catchError( error => ctx.dispatch(new LoadDashboardHistoryFail(error)))
@@ -489,7 +489,7 @@ export class DBState {
     @Action(LoadDashboardHistoryFail)
     loadDashboardHistoryFail(ctx: StateContext<DBStateModel>, { error }: LoadDashboardHistoryFail) {
         const state = ctx.getState();
-        ctx.patchState({status: 'history-failed', error: error });
+        ctx.patchState({status: 'history-failed', history: { error: error } });
     }
 
     @Action(ResetDBtoDefault)

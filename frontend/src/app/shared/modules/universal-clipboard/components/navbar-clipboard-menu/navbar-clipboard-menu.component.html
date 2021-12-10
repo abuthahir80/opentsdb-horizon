@@ -14,8 +14,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- <button mat-flat-button class="clipboard-drawer-trigger"
-    *ngIf="!checkDrawerState"
+ <button mat-flat-button class="history-drawer-trigger"
+  *ngIf="!checkDrawerState && id !== '_new_'"
     matTooltip="Version history"
     (click)="toggleDrawerState('history')">
     <mat-icon>history</mat-icon>

@@ -1,7 +1,10 @@
 <div class="version-history-header">
     <strong>Version History</strong>
 </div>
-<div class="version-history-content-wrapper has-scroller">
+<div *ngIf="error" class="error">
+    {{ error.message }}
+</div>
+<div *ngIf="!error" class="version-history-content-wrapper has-scroller">
     <div class="version-history-item-list is-scroller">
         <!--
         <mat-list class="folder-list" *ngFor="let date of history.dates">
@@ -25,7 +28,7 @@
                 - panel
                     - list of items
         -->
-        <mat-accordion multi="true" displayMode="flat">
+        <mat-accordion  multi="true" displayMode="flat">
             <!-- history items -->
             <mat-expansion-panel class="version-date-item"
                 [ngClass]="{'is-default-date': date === defaultHistoryDate}"
@@ -74,8 +77,8 @@
 <!-- history item menu -->
 <mat-menu #versionHistoryItemMoreMenu="matMenu" overlapTrigger="true" class="version-history-item-more-menu">
     <ng-template matMenuContent let-date="date" let-item="item">
-        <button mat-menu-item (click)="versionItemMenuAction(date,item)">
-            <span>Some version item action</span>
+        <button mat-menu-item (click)="setDefaultVersion(item.id)">
+            <span>Set as default version</span>
         </button>
     </ng-template>
 </mat-menu>

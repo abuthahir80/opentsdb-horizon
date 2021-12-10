@@ -35,6 +35,7 @@ export class NavbarClipboardMenuComponent implements OnInit, OnDestroy {
     @Input() id = null;
     private drawerState: string = 'closed';
     private subscription = new Subscription();
+    closeBtnLabel = 'Close widget clipboard';
 
     constructor(
         private cbService: ClipboardService,
@@ -50,8 +51,10 @@ export class NavbarClipboardMenuComponent implements OnInit, OnDestroy {
     toggleDrawerState(type) {
         this.drawerState = this.drawerState === 'closed' ? 'opened' : 'closed';
         if ( this.drawerState === 'opened' && type === 'clipboard') {
+            this.closeBtnLabel = 'Close widget clipboard';
             this.cbService.setDrawerState(this.drawerState);
         } else if ( this.drawerState === 'opened' ) {
+            this.closeBtnLabel = 'Close version history';
             this.drawerSrv.setDrawerState(this.drawerState);
             this.drawerSrv.setDrawerParams({ type: type, id: this.id });
         } else {
